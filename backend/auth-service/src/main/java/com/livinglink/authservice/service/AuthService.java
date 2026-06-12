@@ -1,5 +1,7 @@
 package com.livinglink.authservice.service;
 
+import com.livinglink.authservice.dto.AuthResponse;
+import com.livinglink.authservice.dto.LoginRequest;
 import com.livinglink.authservice.dto.RegisterRequest;
 import com.livinglink.authservice.entity.AppUser;
 import com.livinglink.authservice.entity.Role;
@@ -39,5 +41,27 @@ public class AuthService {
         userRepository.save(user);
 
         return "User registered successfully";
+    }
+
+    public AuthResponse login(LoginRequest request) {
+        AppUser user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+        boolean passwordMatches = passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        );
+
+        if (!passwordMatches) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        return new AuthResponse(
+                user.getId(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getRole().name(),
+                "Login successful"
+        );
     }
 }

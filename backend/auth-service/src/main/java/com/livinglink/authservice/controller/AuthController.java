@@ -1,5 +1,7 @@
 package com.livinglink.authservice.controller;
 
+import com.livinglink.authservice.dto.AuthResponse;
+import com.livinglink.authservice.dto.LoginRequest;
 import com.livinglink.authservice.dto.RegisterRequest;
 import com.livinglink.authservice.service.AuthService;
 import org.springframework.web.bind.annotation.*;
@@ -17,5 +19,10 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) {
         return authService.register(request);
+    }
+
+    @PostMapping("/login")
+    public AuthResponse login(@RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 }
