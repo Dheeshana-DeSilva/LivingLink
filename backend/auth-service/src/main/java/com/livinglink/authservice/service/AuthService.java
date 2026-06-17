@@ -6,6 +6,7 @@ import com.livinglink.authservice.dto.RegisterRequest;
 import com.livinglink.authservice.entity.AppUser;
 import com.livinglink.authservice.entity.Role;
 import com.livinglink.authservice.repository.UserRepository;
+import com.livinglink.authservice.util.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,12 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public String register(RegisterRequest request) {
@@ -56,11 +59,18 @@ public class AuthService {
             throw new RuntimeException("Invalid email or password");
         }
 
+        String token = jwtUtil.generateToken(
+                user.getId(),
+                user.getEmail(),
+                user.getRole().name()
+        );
+
         return new AuthResponse(
                 user.getId(),
                 user.getFullName(),
                 user.getEmail(),
                 user.getRole().name(),
+                token,
                 "Login successful"
         );
     }
