@@ -1,0 +1,14 @@
+package com.livinglink.listingservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+public class ListingServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ListingServiceApplication.class, args);
+	}
+}
