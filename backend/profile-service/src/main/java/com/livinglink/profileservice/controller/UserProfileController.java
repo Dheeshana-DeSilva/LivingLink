@@ -3,6 +3,8 @@ package com.livinglink.profileservice.controller;
 import com.livinglink.profileservice.dto.ProfileRequest;
 import com.livinglink.profileservice.entity.UserProfile;
 import com.livinglink.profileservice.service.UserProfileService;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,20 +18,31 @@ public class UserProfileController {
     }
 
     @PostMapping
-    public UserProfile createProfile(@RequestBody ProfileRequest request) {
-        return userProfileService.createProfile(request);
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserProfile createProfile(
+            @RequestBody ProfileRequest request,
+            Authentication authentication
+    ) {
+        Long userId = (Long) authentication.getPrincipal();
+
+        return userProfileService.createProfile(userId, request);
     }
 
-    @GetMapping("/{userId}")
-    public UserProfile getProfile(@PathVariable Long userId) {
+    @GetMapping("/me")
+    public UserProfile getMyProfile(Authentication authentication) {
+
+        Long userId = (Long) authentication.getPrincipal();
+
         return userProfileService.getProfileByUserId(userId);
     }
 
-    @PutMapping("/{userId}")
-    public UserProfile updateProfile(
-            @PathVariable Long userId,
-            @RequestBody ProfileRequest request
+    @PutMapping("/me")
+    public UserProfile updateMyProfile(
+            @RequestBody ProfileRequest request,
+            Authentication authentication
     ) {
+        Long userId = (Long) authentication.getPrincipal();
+
         return userProfileService.updateProfile(userId, request);
     }
 }

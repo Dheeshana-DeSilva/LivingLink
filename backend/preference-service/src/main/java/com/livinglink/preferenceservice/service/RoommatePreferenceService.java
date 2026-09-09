@@ -16,14 +16,14 @@ public class RoommatePreferenceService {
         this.preferenceRepository = preferenceRepository;
     }
 
-    public RoommatePreference createPreference(PreferenceRequest request) {
-        if (preferenceRepository.existsByUserId(request.getUserId())) {
+    public RoommatePreference createPreference(Long userId, PreferenceRequest request) {
+        if (preferenceRepository.existsByUserId(userId)) {
             throw new RuntimeException("Preference already exists for this user");
         }
 
         RoommatePreference preference = new RoommatePreference();
 
-        preference.setUserId(request.getUserId());
+        preference.setUserId(userId);
         preference.setPreferredCity(request.getPreferredCity());
         preference.setMinBudget(request.getMinBudget());
         preference.setMaxBudget(request.getMaxBudget());

@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "preference-service")
 public interface PreferenceClient {
 
-    @GetMapping("/api/preferences/{userId}")
-    PreferenceResponse getPreference(
-            @PathVariable("userId") Long userId
-    );
+    @GetMapping("/api/preferences/me")
+    PreferenceResponse getPreference();
 }

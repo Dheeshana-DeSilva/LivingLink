@@ -2,7 +2,6 @@ package com.livinglink.profileservice.dto;
 
 public class ProfileRequest {
 
-    private Long userId;
     private String ageRange;
     private String gender;
     private String occupation;
@@ -15,10 +14,6 @@ public class ProfileRequest {
     private String petPreference;
 
     public ProfileRequest() {
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 
     public String getAgeRange() {

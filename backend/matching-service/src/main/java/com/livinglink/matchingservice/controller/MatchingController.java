@@ -2,6 +2,7 @@ package com.livinglink.matchingservice.controller;
 
 import com.livinglink.matchingservice.dto.MatchingResult;
 import com.livinglink.matchingservice.service.MatchingService;
+import org.springframework.security.core.Authentication;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,10 @@ public class MatchingController {
         this.matchingService = matchingService;
     }
 
-    @GetMapping("/{userId}")
-    public List<MatchingResult> getMatches(
-            @PathVariable Long userId) {
+    @GetMapping("/me")
+    public List<MatchingResult> getMatches(Authentication authentication) {
 
+        Long userId = (Long) authentication.getPrincipal();
         return matchingService.getRankedListings(userId);
     }
 }

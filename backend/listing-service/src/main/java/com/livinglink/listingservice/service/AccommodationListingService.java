@@ -17,10 +17,10 @@ public class AccommodationListingService {
 		this.listingRepository = listingRepository;
 	}
 
-	public AccommodationListing createListing(ListingRequest request) {
+	public AccommodationListing createListing(Long ownerId, ListingRequest request) {
 		AccommodationListing listing = new AccommodationListing();
 
-		listing.setOwnerId(request.getOwnerId());
+		listing.setOwnerId(ownerId);
 		listing.setTitle(request.getTitle());
 		listing.setDescription(request.getDescription());
 		listing.setType(request.getType());
@@ -59,8 +59,12 @@ public class AccommodationListingService {
 		return listingRepository.findByTypeIgnoreCase(type);
 	}
 
-	public AccommodationListing updateListing(Long id, ListingRequest request) {
+	public AccommodationListing updateListing(Long id, Long ownerId, ListingRequest request) {
 		AccommodationListing listing = getListingById(id);
+		
+		if (!listing.getOwnerId().equals(ownerId)) {
+			throw new RuntimeException("Unauthorized to update this listing");
+		}
 
 		listing.setTitle(request.getTitle());
 		listing.setDescription(request.getDescription());
@@ -77,8 +81,13 @@ public class AccommodationListingService {
 		return listingRepository.save(listing);
 	}
 
-	public String deleteListing(Long id) {
+	public String deleteListing(Long id, Long ownerId) {
 		AccommodationListing listing = getListingById(id);
+		
+		if (!listing.getOwnerId().equals(ownerId)) {
+			throw new RuntimeException("Unauthorized to delete this listing");
+		}
+		
 		listingRepository.delete(listing);
 		return "Listing deleted successfully";
 	}

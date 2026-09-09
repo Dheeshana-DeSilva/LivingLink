@@ -16,14 +16,17 @@ public class UserProfileService {
         this.userProfileRepository = userProfileRepository;
     }
 
-    public UserProfile createProfile(ProfileRequest request) {
-        if (userProfileRepository.existsByUserId(request.getUserId())) {
+    public UserProfile createProfile(Long userId, ProfileRequest request) {
+
+        if (userProfileRepository.existsByUserId(userId)) {
             throw new RuntimeException("Profile already exists for this user");
         }
 
         UserProfile profile = new UserProfile();
 
-        profile.setUserId(request.getUserId());
+        // Get user ID from JWT, NOT from request body
+        profile.setUserId(userId);
+
         profile.setAgeRange(request.getAgeRange());
         profile.setGender(request.getGender());
         profile.setOccupation(request.getOccupation());
@@ -34,6 +37,7 @@ public class UserProfileService {
         profile.setCookingHabit(request.getCookingHabit());
         profile.setSmokingPreference(request.getSmokingPreference());
         profile.setPetPreference(request.getPetPreference());
+
         profile.setCreatedAt(LocalDateTime.now());
         profile.setUpdatedAt(LocalDateTime.now());
 
@@ -41,11 +45,17 @@ public class UserProfileService {
     }
 
     public UserProfile getProfileByUserId(Long userId) {
+
         return userProfileRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Profile not found"));
     }
 
-    public UserProfile updateProfile(Long userId, ProfileRequest request) {
+    public UserProfile updateProfile(
+            Long userId,
+            ProfileRequest request
+    ) {
+
         UserProfile profile = getProfileByUserId(userId);
 
         profile.setAgeRange(request.getAgeRange());
@@ -58,6 +68,7 @@ public class UserProfileService {
         profile.setCookingHabit(request.getCookingHabit());
         profile.setSmokingPreference(request.getSmokingPreference());
         profile.setPetPreference(request.getPetPreference());
+
         profile.setUpdatedAt(LocalDateTime.now());
 
         return userProfileRepository.save(profile);

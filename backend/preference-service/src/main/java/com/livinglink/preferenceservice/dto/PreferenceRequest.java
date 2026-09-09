@@ -1,7 +1,6 @@
 package com.livinglink.preferenceservice.dto;
 
 public class PreferenceRequest {
-     private Long userId;
     private String preferredCity;
     private Double minBudget;
     private Double maxBudget;
@@ -14,10 +13,6 @@ public class PreferenceRequest {
     private String lifestyleType;
 
     public PreferenceRequest() {
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 
     public String getPreferredCity() {

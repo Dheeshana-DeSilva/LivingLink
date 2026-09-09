@@ -111,9 +111,8 @@ public class MatchingService {
 
     public List<MatchingResult> getRankedListings(Long userId) {
 
-        // Get user's preferences
         PreferenceResponse preference =
-                preferenceClient.getPreference(userId);
+                preferenceClient.getPreference();
 
         // Get all listings
         List<ListingResponse> listings =

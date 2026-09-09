@@ -2,7 +2,6 @@ package com.livinglink.listingservice.dto;
 
 public class ListingRequest {
 
-	private Long ownerId;
 	private String title;
 	private String description;
 	private String type;
@@ -15,10 +14,6 @@ public class ListingRequest {
 	private String imageUrl;
 
 	public ListingRequest() {
-	}
-
-	public Long getOwnerId() {
-		return ownerId;
 	}
 
 	public String getTitle() {

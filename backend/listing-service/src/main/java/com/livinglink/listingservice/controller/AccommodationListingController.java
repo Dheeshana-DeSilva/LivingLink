@@ -3,6 +3,7 @@ package com.livinglink.listingservice.controller;
 import com.livinglink.listingservice.dto.ListingRequest;
 import com.livinglink.listingservice.entity.AccommodationListing;
 import com.livinglink.listingservice.service.AccommodationListingService;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,9 @@ public class AccommodationListingController {
 	}
 
 	@PostMapping
-	public AccommodationListing createListing(@RequestBody ListingRequest request) {
-		return listingService.createListing(request);
+	public AccommodationListing createListing(@RequestBody ListingRequest request, Authentication authentication) {
+		Long ownerId = (Long) authentication.getPrincipal();
+		return listingService.createListing(ownerId, request);
 	}
 
 	@GetMapping
@@ -57,13 +59,16 @@ public class AccommodationListingController {
 	@PutMapping("/{id}")
 	public AccommodationListing updateListing(
 			@PathVariable Long id,
-			@RequestBody ListingRequest request
+			@RequestBody ListingRequest request,
+			Authentication authentication
 	) {
-		return listingService.updateListing(id, request);
+		Long ownerId = (Long) authentication.getPrincipal();
+		return listingService.updateListing(id, ownerId, request);
 	}
 
 	@DeleteMapping("/{id}")
-	public String deleteListing(@PathVariable Long id) {
-		return listingService.deleteListing(id);
+	public String deleteListing(@PathVariable Long id, Authentication authentication) {
+		Long ownerId = (Long) authentication.getPrincipal();
+		return listingService.deleteListing(id, ownerId);
 	}
 }
