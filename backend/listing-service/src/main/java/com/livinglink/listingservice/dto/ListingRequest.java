@@ -1,58 +1,51 @@
 package com.livinglink.listingservice.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 public class ListingRequest {
 
-	private String title;
-	private String description;
-	private String type;
-	private String city;
-	private String address;
-	private Double rent;
-	private Double deposit;
-	private String facilities;
-	private String preferredGender;
-	private String imageUrl;
+    @NotBlank(message = "Title is required")
+    private String title;
 
-	public ListingRequest() {
-	}
+    private String description;
 
-	public String getTitle() {
-		return title;
-	}
+    @NotBlank(message = "Type is required")
+    private String type;
 
-	public String getDescription() {
-		return description;
-	}
+    @NotBlank(message = "City is required")
+    private String city;
 
-	public String getType() {
-		return type;
-	}
+    @NotBlank(message = "Address is required")
+    private String address;
 
-	public String getCity() {
-		return city;
-	}
+    @NotNull(message = "Rent is required")
+    @Positive(message = "Rent must be a positive number")
+    private Double rent;
 
-	public String getAddress() {
-		return address;
-	}
+    @NotNull(message = "Deposit is required")
+    @Positive(message = "Deposit must be a positive number")
+    private Double deposit;
 
-	public Double getRent() {
-		return rent;
-	}
+    private String facilities;
 
-	public Double getDeposit() {
-		return deposit;
-	}
+    @NotBlank(message = "Preferred gender is required")
+    private String preferredGender;
 
-	public String getFacilities() {
-		return facilities;
-	}
+    private String imageUrl;
 
-	public String getPreferredGender() {
-		return preferredGender;
-	}
+    public ListingRequest() {
+    }
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public String getType() { return type; }
+    public String getCity() { return city; }
+    public String getAddress() { return address; }
+    public Double getRent() { return rent; }
+    public Double getDeposit() { return deposit; }
+    public String getFacilities() { return facilities; }
+    public String getPreferredGender() { return preferredGender; }
+    public String getImageUrl() { return imageUrl; }
 }

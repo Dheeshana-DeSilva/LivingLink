@@ -2,6 +2,8 @@ package com.livinglink.listingservice.service;
 
 import com.livinglink.listingservice.dto.ListingRequest;
 import com.livinglink.listingservice.entity.AccommodationListing;
+import com.livinglink.listingservice.exception.ResourceNotFoundException;
+import com.livinglink.listingservice.exception.UnauthorizedException;
 import com.livinglink.listingservice.repository.AccommodationListingRepository;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +46,7 @@ public class AccommodationListingService {
 
 	public AccommodationListing getListingById(Long id) {
 		return listingRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Listing not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Listing not found with ID: " + id));
 	}
 
 	public List<AccommodationListing> getListingsByOwnerId(Long ownerId) {
@@ -63,7 +65,7 @@ public class AccommodationListingService {
 		AccommodationListing listing = getListingById(id);
 		
 		if (!listing.getOwnerId().equals(ownerId)) {
-			throw new RuntimeException("Unauthorized to update this listing");
+			throw new UnauthorizedException("You are not authorized to update this listing");
 		}
 
 		listing.setTitle(request.getTitle());
@@ -85,7 +87,7 @@ public class AccommodationListingService {
 		AccommodationListing listing = getListingById(id);
 		
 		if (!listing.getOwnerId().equals(ownerId)) {
-			throw new RuntimeException("Unauthorized to delete this listing");
+			throw new UnauthorizedException("You are not authorized to delete this listing");
 		}
 		
 		listingRepository.delete(listing);

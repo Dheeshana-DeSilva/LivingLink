@@ -2,6 +2,8 @@ package com.livinglink.preferenceservice.service;
 
 import com.livinglink.preferenceservice.dto.PreferenceRequest;
 import com.livinglink.preferenceservice.entity.RoommatePreference;
+import com.livinglink.preferenceservice.exception.DuplicateResourceException;
+import com.livinglink.preferenceservice.exception.ResourceNotFoundException;
 import com.livinglink.preferenceservice.repository.RoommatePreferenceRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class RoommatePreferenceService {
 
     public RoommatePreference createPreference(Long userId, PreferenceRequest request) {
         if (preferenceRepository.existsByUserId(userId)) {
-            throw new RuntimeException("Preference already exists for this user");
+            throw new DuplicateResourceException("Preference already exists for this user");
         }
 
         RoommatePreference preference = new RoommatePreference();
@@ -42,7 +44,8 @@ public class RoommatePreferenceService {
 
     public RoommatePreference getPreferenceByUserId(Long userId) {
         return preferenceRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Preference not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Preference not found for user ID: " + userId));
     }
 
     public RoommatePreference updatePreference(Long userId, PreferenceRequest request) {

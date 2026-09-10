@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class AccommodationListingController {
 	}
 
 	@PostMapping
-	public AccommodationListing createListing(@RequestBody ListingRequest request, Authentication authentication) {
+	public AccommodationListing createListing(@Valid @RequestBody ListingRequest request, Authentication authentication) {
 		Long ownerId = (Long) authentication.getPrincipal();
 		return listingService.createListing(ownerId, request);
 	}
@@ -59,7 +60,7 @@ public class AccommodationListingController {
 	@PutMapping("/{id}")
 	public AccommodationListing updateListing(
 			@PathVariable Long id,
-			@RequestBody ListingRequest request,
+			@Valid @RequestBody ListingRequest request,
 			Authentication authentication
 	) {
 		Long ownerId = (Long) authentication.getPrincipal();

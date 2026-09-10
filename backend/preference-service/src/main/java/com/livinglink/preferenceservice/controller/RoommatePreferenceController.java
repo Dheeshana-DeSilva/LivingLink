@@ -5,6 +5,7 @@ import com.livinglink.preferenceservice.entity.RoommatePreference;
 import com.livinglink.preferenceservice.service.RoommatePreferenceService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/preferences")
@@ -17,7 +18,7 @@ public class RoommatePreferenceController {
     }
 
     @PostMapping
-    public RoommatePreference createPreference(@RequestBody PreferenceRequest request, Authentication authentication) {
+    public RoommatePreference createPreference(@Valid @RequestBody PreferenceRequest request, Authentication authentication) {
         Long userId = (Long) authentication.getPrincipal();
         return preferenceService.createPreference(userId, request);
     }
@@ -30,7 +31,7 @@ public class RoommatePreferenceController {
 
     @PutMapping("/me")
     public RoommatePreference updatePreference(
-            @RequestBody PreferenceRequest request,
+            @Valid @RequestBody PreferenceRequest request,
             Authentication authentication
     ) {
         Long userId = (Long) authentication.getPrincipal();

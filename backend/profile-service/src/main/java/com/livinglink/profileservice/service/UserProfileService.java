@@ -2,6 +2,8 @@ package com.livinglink.profileservice.service;
 
 import com.livinglink.profileservice.dto.ProfileRequest;
 import com.livinglink.profileservice.entity.UserProfile;
+import com.livinglink.profileservice.exception.DuplicateResourceException;
+import com.livinglink.profileservice.exception.ResourceNotFoundException;
 import com.livinglink.profileservice.repository.UserProfileRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class UserProfileService {
     public UserProfile createProfile(Long userId, ProfileRequest request) {
 
         if (userProfileRepository.existsByUserId(userId)) {
-            throw new RuntimeException("Profile already exists for this user");
+            throw new DuplicateResourceException("Profile already exists for this user");
         }
 
         UserProfile profile = new UserProfile();
@@ -48,7 +50,7 @@ public class UserProfileService {
 
         return userProfileRepository.findByUserId(userId)
                 .orElseThrow(() ->
-                        new RuntimeException("Profile not found"));
+                        new ResourceNotFoundException("Profile not found for user ID: " + userId));
     }
 
     public UserProfile updateProfile(

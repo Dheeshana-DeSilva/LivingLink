@@ -5,7 +5,9 @@ import com.livinglink.profileservice.entity.UserProfile;
 import com.livinglink.profileservice.service.UserProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/profiles")
@@ -20,7 +22,7 @@ public class UserProfileController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserProfile createProfile(
-            @RequestBody ProfileRequest request,
+            @Valid @RequestBody ProfileRequest request,
             Authentication authentication
     ) {
         Long userId = (Long) authentication.getPrincipal();
@@ -38,7 +40,7 @@ public class UserProfileController {
 
     @PutMapping("/me")
     public UserProfile updateMyProfile(
-            @RequestBody ProfileRequest request,
+            @Valid @RequestBody ProfileRequest request,
             Authentication authentication
     ) {
         Long userId = (Long) authentication.getPrincipal();
