@@ -1,4 +1,4 @@
-﻿package com.livinglink.notificationservice.exception;
+package com.livinglink.notificationservice.exception;
 
 import com.livinglink.notificationservice.dto.ApiError;
 import jakarta.servlet.http.HttpServletRequest;

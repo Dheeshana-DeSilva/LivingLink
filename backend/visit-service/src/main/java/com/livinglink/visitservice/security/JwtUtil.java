@@ -1,4 +1,4 @@
-﻿package com.livinglink.visitservice.security;
+package com.livinglink.visitservice.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

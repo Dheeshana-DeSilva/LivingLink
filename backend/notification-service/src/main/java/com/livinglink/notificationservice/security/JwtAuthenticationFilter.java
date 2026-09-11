@@ -1,4 +1,4 @@
-﻿package com.livinglink.notificationservice.security;
+package com.livinglink.notificationservice.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

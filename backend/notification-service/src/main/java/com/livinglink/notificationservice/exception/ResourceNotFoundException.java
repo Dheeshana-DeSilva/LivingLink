@@ -1,4 +1,4 @@
-﻿package com.livinglink.notificationservice.exception;
+package com.livinglink.notificationservice.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

@@ -1,4 +1,4 @@
-﻿package com.livinglink.visitservice.exception;
+package com.livinglink.visitservice.exception;
 
 import com.livinglink.visitservice.dto.ApiError;
 import jakarta.servlet.http.HttpServletRequest;

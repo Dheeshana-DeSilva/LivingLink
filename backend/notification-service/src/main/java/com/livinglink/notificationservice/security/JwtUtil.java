@@ -1,4 +1,4 @@
-﻿package com.livinglink.notificationservice.security;
+package com.livinglink.notificationservice.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

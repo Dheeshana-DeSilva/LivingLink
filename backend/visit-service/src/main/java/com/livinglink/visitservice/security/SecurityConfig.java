@@ -1,4 +1,4 @@
-﻿package com.livinglink.visitservice.security;
+package com.livinglink.visitservice.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

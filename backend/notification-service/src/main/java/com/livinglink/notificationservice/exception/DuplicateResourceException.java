@@ -1,4 +1,4 @@
-﻿package com.livinglink.notificationservice.exception;
+package com.livinglink.notificationservice.exception;
 
 public class DuplicateResourceException extends RuntimeException {
     public DuplicateResourceException(String message) {

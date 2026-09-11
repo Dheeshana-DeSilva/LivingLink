@@ -1,4 +1,4 @@
-﻿package com.livinglink.visitservice.security;
+package com.livinglink.visitservice.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

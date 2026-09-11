@@ -1,4 +1,4 @@
-﻿package com.livinglink.notificationservice.exception;
+package com.livinglink.notificationservice.exception;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

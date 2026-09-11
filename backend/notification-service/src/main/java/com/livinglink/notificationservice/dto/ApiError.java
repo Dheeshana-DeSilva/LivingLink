@@ -1,4 +1,4 @@
-﻿package com.livinglink.notificationservice.dto;
+package com.livinglink.notificationservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
