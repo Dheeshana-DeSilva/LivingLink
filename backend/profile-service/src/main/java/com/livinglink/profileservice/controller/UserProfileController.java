@@ -5,7 +5,6 @@ import com.livinglink.profileservice.entity.UserProfile;
 import com.livinglink.profileservice.service.UserProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
