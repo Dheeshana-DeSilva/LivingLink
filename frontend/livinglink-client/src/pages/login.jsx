@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { loginUser } from "../services/authService";
 import { loginSuccess } from "../features/auth/authSlice";
@@ -8,6 +8,10 @@ import { loginSuccess } from "../features/auth/authSlice";
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // If the user was redirected here from a protected route, remember where they came from
+  const redirectTo = location.state?.from || "/dashboard";
 
   const [formData, setFormData] = useState({
     email: "",
@@ -34,7 +38,7 @@ function Login() {
       setMessage("Login successful");
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate(redirectTo, { replace: true });
       }, 1000);
     } catch (error) {
       setMessage("Invalid email or password");
