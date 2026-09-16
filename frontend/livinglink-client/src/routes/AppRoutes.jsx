@@ -5,6 +5,7 @@ import Login from "../pages/login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import Listings from "../pages/Listings";
+import ListingDetail from "../pages/ListingDetail";
 import AddListing from "../pages/AddListing";
 import Profile from "../pages/Profile";
 import Preferences from "../pages/Preferences";
@@ -86,10 +87,21 @@ function AppRoutes() {
 
         {/* ── Public browsing (listings are viewable by anyone) ─── */}
         <Route path="/listings" element={<Listings />} />
+        <Route path="/listings/:id" element={<ListingDetail />} />
 
-        {/* ── Role-restricted: Only LISTING_OWNER can create listings ── */}
+        {/* ── Role-restricted: Only LISTING_OWNER can create/edit listings ── */}
         <Route
           path="/add-listing"
+          element={
+            <ProtectedRoute>
+              <RoleRoute allowedRoles={["LISTING_OWNER", "ADMIN"]}>
+                <AddListing />
+              </RoleRoute>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-listing/:id"
           element={
             <ProtectedRoute>
               <RoleRoute allowedRoles={["LISTING_OWNER", "ADMIN"]}>
