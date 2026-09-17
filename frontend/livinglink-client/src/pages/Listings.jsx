@@ -21,7 +21,7 @@ import {
   AlertCircle,
   Eye,
 } from "lucide-react";
-import { getAllListings, deleteListing } from "../services/listingService";
+import accommodationService from "../services/accommodationService";
 
 const ACCOMMODATION_TYPES = [
   "All Types",
@@ -62,7 +62,7 @@ function Listings() {
     try {
       setLoading(true);
       setError("");
-      const data = await getAllListings();
+      const data = await accommodationService.getAllAccommodations();
       setListings(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(
@@ -85,7 +85,7 @@ function Listings() {
     if (!window.confirm("Are you sure you want to delete this listing?")) return;
 
     try {
-      await deleteListing(id);
+      await accommodationService.deleteAccommodation(id);
       setListings((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
       alert(err.response?.data?.message || "Failed to delete listing.");
@@ -172,7 +172,7 @@ function Listings() {
             <div className="flex flex-wrap items-center gap-3">
               {isLoggedIn ? (
                 <Link
-                  to="/add-listing"
+                  to="/accommodations/create"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-500/25 transition-all"
                 >
                   <Plus size={18} /> Post an Accommodation
@@ -377,7 +377,7 @@ function Listings() {
               </button>
               {isLoggedIn && (
                 <Link
-                  to="/add-listing"
+                  to="/accommodations/create"
                   className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium"
                 >
                   Post a Room
@@ -448,7 +448,7 @@ function Listings() {
                   <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                     <div>
                       {/* Title */}
-                      <Link to={`/listings/${item.id}`}>
+                      <Link to={`/accommodations/${item.id}`}>
                         <h3 className="font-bold text-white text-base hover:text-blue-400 transition-colors line-clamp-1 mb-1.5">
                           {item.title}
                         </h3>
@@ -490,7 +490,7 @@ function Listings() {
                     {/* Card Footer Actions */}
                     <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
                       <Link
-                        to={`/listings/${item.id}`}
+                        to={`/accommodations/${item.id}`}
                         className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
                       >
                         <Eye size={14} /> View Details
@@ -499,7 +499,7 @@ function Listings() {
                       {isOwner && (
                         <div className="flex items-center gap-1.5">
                           <Link
-                            to={`/edit-listing/${item.id}`}
+                            to={`/accommodations/${item.id}/edit`}
                             className="p-1.5 rounded-lg text-slate-400 hover:text-blue-400 hover:bg-slate-800 transition-colors"
                             title="Edit Listing"
                           >

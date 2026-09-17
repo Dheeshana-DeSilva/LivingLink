@@ -5,7 +5,9 @@ import Login from "../pages/login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import Listings from "../pages/Listings";
-import ListingDetail from "../pages/ListingDetail";
+import AccommodationDetails from "../pages/AccommodationDetails";
+import CreateAccommodation from "../pages/CreateAccommodation";
+import EditAccommodation from "../pages/EditAccommodation";
 import AddListing from "../pages/AddListing";
 import Profile from "../pages/Profile";
 import Preferences from "../pages/Preferences";
@@ -85,18 +87,33 @@ function AppRoutes() {
           }
         />
 
-        {/* ── Public browsing (listings are viewable by anyone) ─── */}
+        {/* ── Public browsing (listings and details) ─── */}
         <Route path="/listings" element={<Listings />} />
-        <Route path="/listings/:id" element={<ListingDetail />} />
+        <Route path="/listings/:id" element={<AccommodationDetails />} />
+        <Route path="/accommodations/:id" element={<AccommodationDetails />} />
 
-        {/* ── Role-restricted: Only LISTING_OWNER can create/edit listings ── */}
+        {/* ── Accommodation Management (Create & Edit) ─── */}
+        <Route
+          path="/accommodations/create"
+          element={
+            <ProtectedRoute>
+              <CreateAccommodation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/accommodations/:id/edit"
+          element={
+            <ProtectedRoute>
+              <EditAccommodation />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/add-listing"
           element={
             <ProtectedRoute>
-              <RoleRoute allowedRoles={["LISTING_OWNER", "ADMIN"]}>
-                <AddListing />
-              </RoleRoute>
+              <CreateAccommodation />
             </ProtectedRoute>
           }
         />
@@ -104,9 +121,7 @@ function AppRoutes() {
           path="/edit-listing/:id"
           element={
             <ProtectedRoute>
-              <RoleRoute allowedRoles={["LISTING_OWNER", "ADMIN"]}>
-                <AddListing />
-              </RoleRoute>
+              <EditAccommodation />
             </ProtectedRoute>
           }
         />
