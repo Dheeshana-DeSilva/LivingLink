@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Menu, X, Home, Search, Users, Bell, User, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, Home, Search, Users, Bell, User, LogOut, LayoutDashboard, Sliders } from "lucide-react";
 import { logout } from "../../features/auth/authSlice";
 
 function Navbar() {
@@ -67,7 +67,10 @@ function Navbar() {
             <NavLink to="/matches" icon={Users}>Roommates</NavLink>
             
             {isLoggedIn && (
-              <NavLink to="/notifications" icon={Bell}>Alerts</NavLink>
+              <>
+                <NavLink to="/preferences" icon={Sliders}>Preferences</NavLink>
+                <NavLink to="/notifications" icon={Bell}>Alerts</NavLink>
+              </>
             )}
           </nav>
 
@@ -131,6 +134,7 @@ function Navbar() {
           {isLoggedIn ? (
             <>
               <div className="h-px bg-slate-800 my-2"></div>
+              <NavLink to="/preferences" icon={Sliders}>Preferences</NavLink>
               <NavLink to="/notifications" icon={Bell}>Notifications</NavLink>
               {role === "ADMIN" ? (
                 <NavLink to="/admin" icon={LayoutDashboard}>Admin Dashboard</NavLink>

@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import Login from "../pages/login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
-import Listings from "../pages/Listings";
+import Accommodations from "../pages/Accommodations";
 import AccommodationDetails from "../pages/AccommodationDetails";
 import CreateAccommodation from "../pages/CreateAccommodation";
 import EditAccommodation from "../pages/EditAccommodation";
@@ -88,7 +88,8 @@ function AppRoutes() {
         />
 
         {/* ── Public browsing (listings and details) ─── */}
-        <Route path="/listings" element={<Listings />} />
+        <Route path="/accommodations" element={<Accommodations />} />
+        <Route path="/listings" element={<Accommodations />} />
         <Route path="/listings/:id" element={<AccommodationDetails />} />
         <Route path="/accommodations/:id" element={<AccommodationDetails />} />
 

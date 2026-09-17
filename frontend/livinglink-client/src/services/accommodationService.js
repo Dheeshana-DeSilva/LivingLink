@@ -29,9 +29,58 @@ export const getAccommodationById = async (id) => {
   return response.data;
 };
 
+// Retrieve accommodations with search and filter parameters (Step 16)
+export const getAccommodations = async (filters = {}) => {
+  const params = {};
+  if (filters.city) params.city = filters.city;
+  if (filters.minBudget) params.minBudget = filters.minBudget;
+  if (filters.maxBudget) params.maxBudget = filters.maxBudget;
+  if (filters.accommodationType) params.accommodationType = filters.accommodationType;
+  if (filters.search) params.search = filters.search;
+
+  const response = await api.get("/api/listings", { params });
+  let data = response.data;
+
+  // Dual support: client-side filtering ensures instant, accurate filtering
+  // even if backend does not yet parse specific query parameters.
+  if (Array.isArray(data)) {
+    if (filters.city && filters.city.trim()) {
+      const cityLower = filters.city.trim().toLowerCase();
+      data = data.filter((item) => item.city?.toLowerCase().includes(cityLower));
+    }
+    if (filters.minBudget && !isNaN(parseFloat(filters.minBudget))) {
+      const min = parseFloat(filters.minBudget);
+      data = data.filter((item) => (item.rent ?? item.price ?? 0) >= min);
+    }
+    if (filters.maxBudget && !isNaN(parseFloat(filters.maxBudget))) {
+      const max = parseFloat(filters.maxBudget);
+      data = data.filter((item) => (item.rent ?? item.price ?? 0) <= max);
+    }
+    if (
+      filters.accommodationType &&
+      filters.accommodationType !== "" &&
+      filters.accommodationType !== "All Types"
+    ) {
+      const typeLower = filters.accommodationType.toLowerCase();
+      data = data.filter((item) => item.type?.toLowerCase().includes(typeLower));
+    }
+    if (filters.search && filters.search.trim()) {
+      const q = filters.search.trim().toLowerCase();
+      data = data.filter(
+        (item) =>
+          item.title?.toLowerCase().includes(q) ||
+          item.description?.toLowerCase().includes(q) ||
+          item.city?.toLowerCase().includes(q) ||
+          item.address?.toLowerCase().includes(q)
+      );
+    }
+  }
+
+  return data;
+};
+
 export const getAllAccommodations = async () => {
-  const response = await api.get("/api/listings");
-  return response.data;
+  return getAccommodations({});
 };
 
 export const getAccommodationsByCity = async (city) => {
@@ -63,6 +112,7 @@ export const deleteAccommodation = async (id) => {
 
 const accommodationService = {
   getAccommodationById,
+  getAccommodations,
   getAllAccommodations,
   getAccommodationsByCity,
   getAccommodationsByType,
