@@ -13,6 +13,8 @@ import Profile from "../pages/Profile";
 import Preferences from "../pages/Preferences";
 import Matches from "../pages/Matches";
 import Notifications from "../pages/Notifications";
+import Visits from "../pages/Visits";
+import ScheduleVisit from "../pages/ScheduleVisit";
 import MainLayout from "../layouts/MainLayout";
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
@@ -83,6 +85,22 @@ function AppRoutes() {
           element={
             <ProtectedRoute>
               <Notifications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/visits"
+          element={
+            <ProtectedRoute>
+              <Visits />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/visits/schedule/:accommodationId"
+          element={
+            <ProtectedRoute>
+              <ScheduleVisit />
             </ProtectedRoute>
           }
         />

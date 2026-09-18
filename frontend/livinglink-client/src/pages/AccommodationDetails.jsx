@@ -345,7 +345,7 @@ function AccommodationDetails() {
                 {isLoggedIn ? (
                   <button
                     onClick={() => {
-                      alert("Schedule a Visit feature will connect to visit-service!");
+                      navigate(`/visits/schedule/${accommodation.id}`);
                     }}
                     className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
                   >

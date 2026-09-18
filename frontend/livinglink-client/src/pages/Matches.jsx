@@ -327,9 +327,7 @@ function Matches() {
 
                         <button
                           onClick={() => {
-                            alert(
-                              `Schedule a visit request for "${item.title}" will connect to visit-service in Step 19!`
-                            );
+                            navigate(`/visits/schedule/${item.id}`);
                           }}
                           className="px-3 py-2 rounded-xl bg-blue-600/90 hover:bg-blue-600 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
                           title="Schedule a Visit"
