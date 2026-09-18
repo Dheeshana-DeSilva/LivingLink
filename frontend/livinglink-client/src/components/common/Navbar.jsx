@@ -3,12 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Menu, X, Home, Search, Users, Bell, User, LogOut, LayoutDashboard, Sliders, Calendar } from "lucide-react";
 import { logout } from "../../features/auth/authSlice";
+import { setNotifications } from "../../features/notifications/notificationSlice";
+import notificationService from "../../services/notificationService";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const { isLoggedIn, role } = useSelector((state) => state.auth);
+  const { unreadCount = 0 } = useSelector((state) => state.notifications || {});
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -20,22 +23,42 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      notificationService
+        .getMyNotifications()
+        .then((data) => {
+          if (Array.isArray(data)) {
+            dispatch(setNotifications(data));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [isLoggedIn, dispatch]);
+
   const handleLogout = () => {
     dispatch(logout());
   };
 
   const isActive = (path) => location.pathname === path;
 
-  const NavLink = ({ to, icon: Icon, children }) => (
+  const NavLink = ({ to, icon: Icon, badge, children }) => (
     <Link
       to={to}
-      className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 ${
+      className={`relative flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 ${
         isActive(to)
           ? "bg-blue-500/10 text-blue-400 font-medium"
           : "text-slate-300 hover:text-white hover:bg-slate-800/50"
       }`}
     >
-      <Icon size={18} className={isActive(to) ? "text-blue-400" : "text-slate-400"} />
+      <div className="relative flex items-center">
+        <Icon size={18} className={isActive(to) ? "text-blue-400" : "text-slate-400"} />
+        {badge > 0 && (
+          <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] font-bold rounded-full min-w-[15px] h-[15px] px-0.5 flex items-center justify-center shadow-sm shadow-red-500/50 animate-pulse">
+            {badge > 99 ? "99+" : badge}
+          </span>
+        )}
+      </div>
       {children}
     </Link>
   );
@@ -70,7 +93,7 @@ function Navbar() {
               <>
                 <NavLink to="/preferences" icon={Sliders}>Preferences</NavLink>
                 <NavLink to="/visits" icon={Calendar}>Visits</NavLink>
-                <NavLink to="/notifications" icon={Bell}>Alerts</NavLink>
+                <NavLink to="/notifications" icon={Bell} badge={unreadCount}>Notifications</NavLink>
               </>
             )}
           </nav>
@@ -137,7 +160,7 @@ function Navbar() {
               <div className="h-px bg-slate-800 my-2"></div>
               <NavLink to="/preferences" icon={Sliders}>Preferences</NavLink>
               <NavLink to="/visits" icon={Calendar}>Visits</NavLink>
-              <NavLink to="/notifications" icon={Bell}>Notifications</NavLink>
+              <NavLink to="/notifications" icon={Bell} badge={unreadCount}>Notifications</NavLink>
               {role === "ADMIN" ? (
                 <NavLink to="/admin" icon={LayoutDashboard}>Admin Dashboard</NavLink>
               ) : (
