@@ -17,8 +17,12 @@ import {
   AlertCircle,
   Edit,
   Trash2,
+  Star,
 } from "lucide-react";
 import accommodationService from "../services/accommodationService";
+import reviewService from "../services/reviewService";
+import ReviewForm from "../components/reviews/ReviewForm";
+import ReviewList from "../components/reviews/ReviewList";
 
 function AccommodationDetails() {
   const { id } = useParams();
@@ -26,11 +30,24 @@ function AccommodationDetails() {
   const { userId, role, isLoggedIn } = useSelector((state) => state.auth);
 
   const [accommodation, setAccommodation] = useState(null);
+  const [reviewSummary, setReviewSummary] = useState({ averageRating: 0, reviewCount: 0 });
+  const [refreshReviewTrigger, setRefreshReviewTrigger] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const fetchReviewSummary = async (listingId) => {
+    try {
+      const summary = await reviewService.getListingReviewSummary(listingId);
+      if (summary) {
+        setReviewSummary(summary);
+      }
+    } catch (err) {
+      console.warn("Could not load review summary", err);
+    }
+  };
 
   useEffect(() => {
     const fetchAccommodation = async () => {
@@ -52,6 +69,7 @@ function AccommodationDetails() {
 
     if (id) {
       fetchAccommodation();
+      fetchReviewSummary(id);
     }
   }, [id]);
 
@@ -239,6 +257,12 @@ function AccommodationDetails() {
                 <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-600/90 text-white backdrop-blur-md shadow-md">
                   {accommodation.status || "AVAILABLE"}
                 </span>
+                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/90 text-white backdrop-blur-md shadow-md flex items-center gap-1">
+                  <Star className="w-3.5 h-3.5 fill-white text-white" />
+                  {reviewSummary.averageRating > 0
+                    ? `${reviewSummary.averageRating.toFixed(1)} (${reviewSummary.reviewCount})`
+                    : "No reviews yet"}
+                </span>
               </div>
 
               {/* Overlay Title */}
@@ -246,11 +270,22 @@ function AccommodationDetails() {
                 <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">
                   {accommodation.title}
                 </h1>
-                <div className="flex items-center gap-2 text-slate-300 text-sm">
-                  <MapPin size={16} className="text-emerald-400 shrink-0" />
-                  <span>
-                    {accommodation.address}, {accommodation.city}
-                  </span>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-slate-300 text-sm">
+                    <MapPin size={16} className="text-emerald-400 shrink-0" />
+                    <span>
+                      {accommodation.address}, {accommodation.city}
+                    </span>
+                  </div>
+                  {reviewSummary.reviewCount > 0 && (
+                    <div className="flex items-center gap-1.5 text-xs text-amber-300 font-semibold">
+                      <span>{"⭐".repeat(Math.min(5, Math.max(1, Math.round(reviewSummary.averageRating))))}</span>
+                      <span className="text-white">{reviewSummary.averageRating.toFixed(1)}</span>
+                      <span className="text-slate-400 font-normal">
+                        ({reviewSummary.reviewCount} {reviewSummary.reviewCount === 1 ? "review" : "reviews"})
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -320,6 +355,15 @@ function AccommodationDetails() {
           <div className="space-y-6">
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md sticky top-24 shadow-xl">
               <div className="border-b border-slate-800 pb-5 mb-5">
+                {reviewSummary.reviewCount > 0 && (
+                  <div className="flex items-center gap-1.5 mb-3 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 w-fit text-xs text-amber-300 font-semibold">
+                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    <span>{reviewSummary.averageRating.toFixed(1)}</span>
+                    <span className="text-slate-400 font-normal">
+                      ({reviewSummary.reviewCount} {reviewSummary.reviewCount === 1 ? "review" : "reviews"})
+                    </span>
+                  </div>
+                )}
                 <span className="text-xs text-slate-400 font-medium uppercase tracking-wider block mb-1">
                   Monthly Rent
                 </span>
@@ -386,6 +430,35 @@ function AccommodationDetails() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Reviews & Ratings Section */}
+        <div className="mt-12 space-y-8 pt-8 border-t border-slate-800">
+          <div>
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+              <Star className="w-6 h-6 text-amber-400 fill-amber-400" />
+              Reviews & Ratings
+            </h2>
+            <p className="text-sm text-slate-400 mt-1">
+              Verified resident and visitor reviews for this accommodation.
+            </p>
+          </div>
+
+          <ReviewList
+            accommodationId={accommodation.id}
+            refreshTrigger={refreshReviewTrigger}
+            onReviewDeleted={() => {
+              fetchReviewSummary(accommodation.id);
+            }}
+          />
+
+          <ReviewForm
+            accommodationId={accommodation.id}
+            onReviewCreated={() => {
+              setRefreshReviewTrigger((prev) => prev + 1);
+              fetchReviewSummary(accommodation.id);
+            }}
+          />
         </div>
       </div>
     </div>
