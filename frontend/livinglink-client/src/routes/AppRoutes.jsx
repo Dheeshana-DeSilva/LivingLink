@@ -21,6 +21,14 @@ import ProtectedRoute from "../components/auth/ProtectedRoute";
 import GuestRoute from "../components/auth/GuestRoute";
 import RoleRoute from "../components/auth/RoleRoute";
 
+import AdminRoute from "./AdminRoute";
+import AdminLayout from "../layouts/AdminLayout";
+import AdminDashboard from "../pages/AdminDashboard";
+import AdminUsers from "../pages/admin/AdminUsers";
+import AdminAccommodations from "../pages/admin/AdminAccommodations";
+import AdminVisits from "../pages/admin/AdminVisits";
+import AdminReviews from "../pages/admin/AdminReviews";
+
 function AppRoutes() {
   return (
     <Routes>
@@ -145,6 +153,17 @@ function AppRoutes() {
           }
         />
 
+      </Route>
+
+      {/* ── Admin Portal routes (protected by AdminRoute & AdminLayout) ── */}
+      <Route element={<AdminRoute />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/accommodations" element={<AdminAccommodations />} />
+          <Route path="/admin/visits" element={<AdminVisits />} />
+          <Route path="/admin/reviews" element={<AdminReviews />} />
+        </Route>
       </Route>
     </Routes>
   );
