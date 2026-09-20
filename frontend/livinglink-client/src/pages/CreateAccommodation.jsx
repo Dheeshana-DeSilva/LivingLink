@@ -241,12 +241,12 @@ function CreateAccommodation() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Monthly Price / Rent ($) <span className="text-red-400">*</span>
+                Monthly Rent (LKR) <span className="text-red-400">*</span>
               </label>
               <input
                 type="number"
                 name="price"
-                step="0.01"
+                step="1"
                 value={formData.price}
                 onChange={handleChange}
                 placeholder="35000"
@@ -257,7 +257,7 @@ function CreateAccommodation() {
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Security Deposit ($)
+                Security Deposit (LKR)
               </label>
               <input
                 type="number"

@@ -41,7 +41,7 @@ export const createVisit = async (visitData) => {
  */
 export const getMyVisits = async () => {
   const response = await api.get("/api/visits/requester/me");
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 /**
@@ -49,8 +49,16 @@ export const getMyVisits = async () => {
  * GET /api/visits/owner/me
  */
 export const getOwnerVisits = async () => {
-  const response = await api.get("/api/visits/owner/me");
-  return response.data;
+  try {
+    const response = await api.get("/api/visits/owner/me");
+    if (Array.isArray(response.data)) {
+      return response.data;
+    }
+    return [];
+  } catch (err) {
+    console.warn("Owner visits unavailable:", err?.message);
+    return [];
+  }
 };
 
 /**

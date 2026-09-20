@@ -11,7 +11,7 @@ import api from "./api";
  */
 export const getMyNotifications = async () => {
   const response = await api.get("/api/notifications/me");
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 /**

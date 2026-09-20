@@ -41,8 +41,6 @@ export const getAccommodations = async (filters = {}) => {
   const response = await api.get("/api/listings", { params });
   let data = response.data;
 
-  // Dual support: client-side filtering ensures instant, accurate filtering
-  // even if backend does not yet parse specific query parameters.
   if (Array.isArray(data)) {
     if (filters.city && filters.city.trim()) {
       const cityLower = filters.city.trim().toLowerCase();
@@ -74,10 +72,12 @@ export const getAccommodations = async (filters = {}) => {
           item.address?.toLowerCase().includes(q)
       );
     }
+    return data;
   }
 
-  return data;
+  return [];
 };
+
 
 export const getAllAccommodations = async () => {
   return getAccommodations({});

@@ -182,7 +182,7 @@ function Accommodations() {
             {/* Minimum Budget */}
             <div>
               <label className="block mb-2 text-xs font-medium text-slate-300">
-                Minimum Budget ($ / Rs.)
+                Minimum Budget (LKR)
               </label>
               <input
                 type="number"
@@ -197,7 +197,7 @@ function Accommodations() {
             {/* Maximum Budget */}
             <div>
               <label className="block mb-2 text-xs font-medium text-slate-300">
-                Maximum Budget ($ / Rs.)
+                Maximum Budget (LKR)
               </label>
               <input
                 type="number"

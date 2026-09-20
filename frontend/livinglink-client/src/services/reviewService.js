@@ -43,7 +43,7 @@ export const createReview = async (reviewData) => {
  */
 export const getAccommodationReviews = async (accommodationId) => {
   const response = await api.get(`/api/reviews/listing/${accommodationId}`);
-  return response.data;
+  return Array.isArray(response.data) ? response.data : [];
 };
 
 /**
@@ -52,7 +52,7 @@ export const getAccommodationReviews = async (accommodationId) => {
  */
 export const getListingReviewSummary = async (accommodationId) => {
   const response = await api.get(`/api/reviews/listing/${accommodationId}/summary`);
-  return response.data;
+  return response.data || { targetId: Number(accommodationId), averageRating: 0, reviewCount: 0 };
 };
 
 /**

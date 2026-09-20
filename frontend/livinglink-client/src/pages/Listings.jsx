@@ -438,7 +438,7 @@ function Listings() {
 
                     <div className="absolute bottom-3 left-3">
                       <div className="px-3 py-1 rounded-lg bg-slate-950/85 backdrop-blur-md border border-slate-800 text-white font-extrabold text-sm">
-                        ${item.rent?.toLocaleString()}
+                        Rs. {item.rent?.toLocaleString()}
                         <span className="text-xs font-normal text-slate-400"> /mo</span>
                       </div>
                     </div>

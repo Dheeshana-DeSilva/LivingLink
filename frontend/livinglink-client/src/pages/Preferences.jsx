@@ -242,7 +242,7 @@ function Preferences() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-medium text-slate-300 mb-2">
-                  Minimum Monthly Budget (Rs. / $) <span className="text-red-400">*</span>
+                  Minimum Monthly Budget (LKR) <span className="text-red-400">*</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3.5 top-3 text-slate-500 text-xs font-semibold">Rs.</span>
@@ -260,7 +260,7 @@ function Preferences() {
 
               <div>
                 <label className="block text-xs font-medium text-slate-300 mb-2">
-                  Maximum Monthly Budget (Rs. / $) <span className="text-red-400">*</span>
+                  Maximum Monthly Budget (LKR) <span className="text-red-400">*</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3.5 top-3 text-slate-500 text-xs font-semibold">Rs.</span>

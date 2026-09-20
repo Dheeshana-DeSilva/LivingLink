@@ -368,8 +368,8 @@ function AccommodationDetails() {
                   Monthly Rent
                 </span>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold text-white">
-                    ${accommodation.rent?.toLocaleString()}
+                  <span className="text-2xl sm:text-3xl font-extrabold text-white">
+                    Rs. {accommodation.rent?.toLocaleString()}
                   </span>
                   <span className="text-slate-400 text-sm">/ month</span>
                 </div>
@@ -378,7 +378,7 @@ function AccommodationDetails() {
                     <DollarSign size={14} className="text-amber-400" />
                     <span>Security Deposit: </span>
                     <span className="text-slate-200 font-medium">
-                      ${accommodation.deposit?.toLocaleString()}
+                      Rs. {accommodation.deposit?.toLocaleString()}
                     </span>
                   </div>
                 )}
