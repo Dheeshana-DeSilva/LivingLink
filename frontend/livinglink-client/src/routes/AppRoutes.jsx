@@ -15,6 +15,8 @@ import Matches from "../pages/Matches";
 import Notifications from "../pages/Notifications";
 import Visits from "../pages/Visits";
 import ScheduleVisit from "../pages/ScheduleVisit";
+import NotFound from "../pages/NotFound";
+import Unauthorized from "../pages/Unauthorized";
 import MainLayout from "../layouts/MainLayout";
 
 import ProtectedRoute from "../components/auth/ProtectedRoute";
@@ -152,6 +154,10 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        {/* ── Error pages (still use MainLayout so Navbar is present) ── */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<NotFound />} />
 
       </Route>
 

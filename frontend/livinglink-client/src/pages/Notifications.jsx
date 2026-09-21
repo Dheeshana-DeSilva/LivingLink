@@ -6,13 +6,10 @@ import {
   Calendar,
   CheckCircle2,
   XCircle,
-  AlertCircle,
   Sparkles,
   Star,
   CheckCheck,
   Clock,
-  Loader2,
-  Inbox,
   ArrowRight,
 } from "lucide-react";
 import notificationService from "../services/notificationService";
@@ -21,6 +18,9 @@ import {
   markNotificationAsRead,
   markAllNotificationsAsRead,
 } from "../features/notifications/notificationSlice";
+import Loading from "../components/common/Loading";
+import ErrorMessage from "../components/common/ErrorMessage";
+import EmptyState from "../components/common/EmptyState";
 
 function Notifications() {
   const dispatch = useDispatch();
@@ -220,43 +220,28 @@ function Notifications() {
         </div>
 
         {/* Loading State */}
-        {loading && (
-          <div className="py-20 flex flex-col items-center justify-center gap-3 text-slate-400">
-            <Loader2 className="animate-spin text-blue-500" size={36} />
-            <p className="text-xs">Loading notifications...</p>
-          </div>
-        )}
+        {loading && <Loading message="Loading notifications..." />}
 
         {/* Error State */}
         {!loading && error && (
-          <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-6 text-center max-w-xl mx-auto space-y-3">
-            <AlertCircle size={32} className="text-red-400 mx-auto" />
-            <h3 className="text-sm font-bold text-white">Error</h3>
-            <p className="text-xs text-red-300">{error}</p>
-            <button
-              onClick={loadNotifications}
-              className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-semibold"
-            >
-              Retry
-            </button>
-          </div>
+          <ErrorMessage message={error} onRetry={loadNotifications} />
         )}
 
         {/* Empty State */}
         {!loading && !error && filteredNotifications.length === 0 && (
-          <div className="bg-slate-900/40 border border-slate-800/80 rounded-3xl p-12 text-center max-w-md mx-auto space-y-3">
-            <Inbox size={48} className="text-slate-600 mx-auto" />
-            <h3 className="text-base font-bold text-white">
-              {filter === "unread"
+          <EmptyState
+            icon={<Bell size={48} />}
+            title={
+              filter === "unread"
                 ? "No unread notifications"
-                : "You have no notifications"}
-            </h3>
-            <p className="text-xs text-slate-400">
-              {filter === "unread"
+                : "You have no notifications"
+            }
+            description={
+              filter === "unread"
                 ? "You are all caught up! Switch to 'All' to review earlier notifications."
-                : "When you receive visit requests or roommate match alerts, they will appear right here."}
-            </p>
-            <div className="pt-2">
+                : "When you receive visit requests or roommate match alerts, they will appear right here."
+            }
+            action={
               <Link
                 to="/accommodations"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors"
@@ -264,8 +249,8 @@ function Notifications() {
                 <span>Browse Accommodations</span>
                 <ArrowRight size={14} />
               </Link>
-            </div>
-          </div>
+            }
+          />
         )}
 
         {/* Notifications List */}

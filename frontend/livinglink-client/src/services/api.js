@@ -30,9 +30,17 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      store.dispatch(logout());
-      window.location.href = "/login";
+    if (error.response) {
+      const { status } = error.response;
+
+      if (status === 401) {
+        // Token expired or invalid — log out and go to login
+        store.dispatch(logout());
+        window.location.href = "/login";
+      } else if (status === 403) {
+        // Authenticated but forbidden — redirect to 403 page
+        window.location.href = "/unauthorized";
+      }
     }
     return Promise.reject(error);
   }
