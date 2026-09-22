@@ -316,7 +316,7 @@ function Accommodations() {
 
         {/* Accommodation Cards Grid */}
         {!loading && !error && accommodations.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {accommodations.map((item) => {
               const isOwner =
                 String(item.ownerId) === String(userId) || role === "ADMIN";
@@ -329,7 +329,7 @@ function Accommodations() {
                   className="bg-slate-900/70 border border-slate-800 hover:border-slate-700/80 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-black/50 transition-all duration-300 flex flex-col group"
                 >
                   {/* Photo Header */}
-                  <div className="relative h-48 w-full bg-slate-800 overflow-hidden">
+                  <div className="relative h-48 sm:h-56 w-full bg-slate-800 overflow-hidden">
                     {item.imageUrl ? (
                       <img
                         src={item.imageUrl}

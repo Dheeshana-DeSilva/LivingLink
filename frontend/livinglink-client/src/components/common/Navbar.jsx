@@ -45,6 +45,7 @@ function Navbar() {
   const NavLink = ({ to, icon: Icon, badge, children }) => (
     <Link
       to={to}
+      onClick={() => setMobileMenuOpen(false)}
       className={`relative flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 ${
         isActive(to)
           ? "bg-blue-500/10 text-blue-400 font-medium"

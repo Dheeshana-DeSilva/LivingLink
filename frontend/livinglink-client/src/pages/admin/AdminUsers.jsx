@@ -129,7 +129,7 @@ const AdminUsers = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
+            <table className="w-full min-w-[800px] text-left text-sm text-slate-300">
               <thead className="bg-slate-850/80 border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase tracking-wider">
                 <tr>
                   <th className="py-3.5 px-6">ID</th>

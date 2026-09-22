@@ -193,7 +193,7 @@ function Matches() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {matches.map((match, index) => {
                 // Support both backend MatchingResult ({ listing, compatibilityScore })
                 // and flat structure ({ title, rent, city, ... })
@@ -209,7 +209,7 @@ function Matches() {
                     className="bg-slate-900/70 border border-slate-800 hover:border-slate-700/80 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-black/50 transition-all duration-300 flex flex-col group"
                   >
                     {/* Visual Photo & Compatibility Header */}
-                    <div className="relative h-48 w-full bg-slate-800 overflow-hidden">
+                    <div className="relative h-48 sm:h-56 w-full bg-slate-800 overflow-hidden">
                       {item.imageUrl ? (
                         <img
                           src={item.imageUrl}
